@@ -13,6 +13,8 @@ Provides utility functions:
 
 
 ## Example Usage
+`jQuery.facebook( fbAppId [, settings] )`
+
 ``` javascript
 $.facebook(1234567890);
 
