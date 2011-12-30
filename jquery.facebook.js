@@ -138,11 +138,9 @@
     function _ensureExternalLinks()
     {
         if(_inCanvas) {
-            $('a[href]').not('[target=_top]').each(function(i, link) {
-                // Only apply to external links
-                if(link.href[0] != '/') {   
-                    $(link).attr('target', '_top');
-                }
+            // Only apply to external links
+            $('a[href^="http"]').not('[href*="'+ window.location.host +'"], [target]').each(function() {
+                $(this).attr('target', '_top');
             });
         }
     }
