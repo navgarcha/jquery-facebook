@@ -64,8 +64,8 @@
         $.getScript('//connect.facebook.net/en_US/all.js', loadCallback);
     }
     
-    function _initSdk(settings) {
-        FB.init(settings);
+    function _initSdk(config) {
+        FB.init(config);
         FB.Canvas.scrollTo(0, 0);   // Ensure we are at the top of page on load
         FB.getLoginStatus(_handleUserStateChange);
         
