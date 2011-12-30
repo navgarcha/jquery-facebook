@@ -120,7 +120,7 @@
     function _ensureInit(callback, waitForAuth) {
         if(!_isInitd || (waitForAuth && !_isAuthed)) {
             setTimeout(function() {
-                $.facebook.ensure(callback, waitForAuth);
+                _ensureInit(callback, waitForAuth);
             }, 100);
         } else if(callback) {
             callback();
