@@ -31,7 +31,7 @@
         _eventTarget = $(_settings.eventTarget);
         
         _setupPage(function() {
-            _initSdk($.extend(_settings.sdkInitOpts, {
+            _initSdk($.extend(_settings.initConfig, {
                 appId: appId    // Add the passed in appId to the config object for init
             }));
         });
@@ -46,7 +46,7 @@
         eventTarget: document,
         userLogged: undefined,
         initQueue: [],
-        sdkInitOpts: {
+        initConfig: {
             status: true,
             cookie: true,
             xfbml: true

@@ -19,7 +19,7 @@ Provides utility functions:
 $.facebook(1234567890);
 
 $.facebook(1234567890, {  
-    sdkInitOpts: {
+    initConfig: {
         cookie: false,
         xfbml: true
     },
