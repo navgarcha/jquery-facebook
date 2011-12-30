@@ -19,6 +19,7 @@ Provides utility functions:
 $.facebook(1234567890);
 
 $.facebook(1234567890, {  
+    locale: 'en_US',
     initConfig: {
         cookie: false,
         xfbml: true

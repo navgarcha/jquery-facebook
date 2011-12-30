@@ -45,6 +45,7 @@
         staticPageSize: false,
         eventTarget: document,
         userLogged: undefined,
+        locale: 'en_GB',
         initQueue: [],
         initConfig: {
             status: true,
@@ -61,7 +62,7 @@
         $('body').append('<div id="fb-root" />');
         
         // Asynchronously load in the JS SDK
-        $.getScript('//connect.facebook.net/en_US/all.js', loadCallback);
+        $.getScript('//connect.facebook.net/'+ _settings.locale +'/all.js', loadCallback);
         
         // Ensure all external links point to target=_top to avoid nasty placeholder page
         _ensureExternalLinks();
