@@ -28,7 +28,7 @@
         
         _inCanvas = window.top != window;
         _settings = $.extend({}, $.facebook.settings, options);
-        _eventTarget = $($.facebook.settings.eventTarget);
+        _eventTarget = $(_settings.eventTarget);
         
         _setupPage(function() {
             _initSdk($.extend(_settings.sdkInitOpts, {
