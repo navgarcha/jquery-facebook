@@ -62,6 +62,9 @@
         
         // Asynchronously load in the JS SDK
         $.getScript('//connect.facebook.net/en_US/all.js', loadCallback);
+        
+        // Ensure all external links point to target=_top to avoid nasty placeholder page
+        _ensureExternalLinks();
     }
     
     function _initSdk(config) {
@@ -114,6 +117,36 @@
         }
     }
     
+    function _ensureInit(callback, waitForAuth) {
+        if(!_isInitd || (waitForAuth && !_isAuthed)) {
+            setTimeout(function() {
+                $.facebook.ensure(callback, waitForAuth);
+            }, 100);
+        } else if(callback) {
+            callback();
+        }
+    }
+    
+    function _execContextSwitch(canvasCallback, normalCallback) {
+        if(_inCanvas && typeof canvasCallback === 'function') {
+            canvasCallback();
+        } else if(!_inCanvas && typeof normalCallback === 'function') {
+            normalCallback();
+        }
+    }
+    
+    function _ensureExternalLinks()
+    {
+        if(_inCanvas) {
+            $('a[href]').not('[target=_top]').each(function(i, link) {
+                // Only apply to external links
+                if(link.href[0] != '/') {   
+                    $(link).attr('target', '_top');
+                }
+            });
+        }
+    }
+    
     function _exposeYourself() {
         // Expose to public 
         $.extend($.facebook, {
@@ -121,23 +154,9 @@
             inCanvas: _inCanvas,
             isReady: _isInitd,
             // Execute code only once FB is ready, with the option to wait till auth
-            ensure: function(callback, waitForAuth) {
-                if(!_isInitd || (waitForAuth && !_isAuthed)) {
-                    setTimeout(function() {
-                        $.facebook.ensure(callback, waitForAuth);
-                    }, 100);
-                } else if(callback) {
-                    callback();
-                }
-            },
+            ensure: _ensureInit,
             // Context check to execute code depending on whether site is in FB Canvas or not
-            context: function(canvasCallback, normalCallback) {
-                if(_inCanvas && typeof canvasCallback === 'function') {
-                    canvasCallback();
-                } else if(!_inCanvas && typeof normalCallback === 'function') {
-                    normalCallback();
-                }
-            }
+            context: _execContextSwitch
         });
     }
 })(jQuery, window, document);
