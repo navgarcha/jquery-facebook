@@ -18,7 +18,11 @@ Provides utility functions:
 ``` javascript
 $.facebook(1234567890);
 
-$.facebook(1234567890, {   
+$.facebook(1234567890, {  
+    sdkInitOpts: {
+        cookie: false,
+        xfbml: true
+    },
     initQueue: [function() {         
         console.log('1st');    
     }, function() {         
