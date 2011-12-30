@@ -1,4 +1,4 @@
-# jQuery Facebook Plugin
+# jQuery Facebook Plugin v0.1
 
 Plugin allows for quick and easy setup for the Facebook JS SDK within the jQuery wrapper.   
 Look at source for config options till I decide to write up a proper guide. ;)
@@ -13,20 +13,21 @@ Provides utility functions:
 
 
 ## Example Usage
+``` javascript
+$.facebook(1234567890);
 
-    $.facebook(1234567890);
-    
-    $.facebook(1234567890, {    
-        initQueue: [function() {         
-            console.log('1st');    
-        }, function() {         
-            console.log('2nd');    
-        }, function() {         
-            console.log('3rd');    
-        }]
-    });
+$.facebook(1234567890, {   
+    initQueue: [function() {         
+        console.log('1st');    
+    }, function() {         
+        console.log('2nd');    
+    }, function() {         
+        console.log('3rd');    
+    }]
+});
+```
 
-Version: 0.1    
-Author: Navkaran Garcha     
-Mail: nav_garcha@hotmail.co.uk  
-Twitter: @Nav_Garcha
+## Contact
+* Author: Navkaran Garcha
+* Mail: nav_garcha@hotmail.co.uk
+* Twitter: @Nav_Garcha
