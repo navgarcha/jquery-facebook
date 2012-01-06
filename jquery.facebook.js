@@ -26,7 +26,7 @@
         // Ensure FB appId is passed and SDK isnt already initiated
         if(!appId || _isInitd) return;
         
-        _inCanvas = window.top != window;
+        _inCanvas = (window.location.search.indexOf('fb_sig_in_iframe=1') > -1) || (window.location.search.indexOf('session=') > -1);
         _settings = $.extend({}, $.facebook.settings, options);
         _eventTarget = $(_settings.eventTarget);
         
