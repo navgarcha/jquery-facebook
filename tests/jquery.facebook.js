@@ -5,7 +5,7 @@ asyncTest('initQueue and events', 5, function () {
         eventTarget = $('body');
     
     eventTarget.bind('ready.facebook', function() {
-        ok($.facebook.isReady, 'fired event ready.facebook on custom eventTarget');  
+        ok($.facebook.isReady && !!window.FB, 'fired event ready.facebook on custom eventTarget');  
     });
     
      eventTarget.bind('clearqueue.facebook', function() {
@@ -56,5 +56,4 @@ test('$.facebook.ensure check', function() {
 });
 
 test('external link modifications', function() {
-    equals($('a[target="_top"]').length, window.forceCanvas ? 2 : 0, 'correct target="_top" assigned');
-});
+    equals($('a[target="_top"]').length, window.forceCanvas ? 2 : 0, 'correct target="_top" 
