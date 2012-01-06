@@ -18,17 +18,28 @@
     var _settings,
         _isAuthed,
         _isInitd,
+        _isReady,
         _inCanvas,
         _eventTarget;
     
     // Plugin declaration
     $.facebook = function(appId, options) {
         // Ensure FB appId is passed and SDK isnt already initiated
-        if(!appId || _isInitd) return;
+        if(!appId || _isInitd) {
+            return;
+        } else {
+            _isInitd = true;
+        }
         
-        _inCanvas = (window.location.search.indexOf('fb_sig_in_iframe=1') > -1) || (window.location.search.indexOf('session=') > -1);
         _settings = $.extend({}, $.facebook.settings, options);
         _eventTarget = $(_settings.eventTarget);
+        _inCanvas = (
+            (window.location.search.indexOf('fb_sig_in_iframe=1')>-1) ||
+            (window.location.search.indexOf('session=')>-1) ||
+            (window.location.search.indexOf('signed_request=')>-1) ||
+            (window.name.indexOf('iframe_canvas')>-1) ||
+            (window.name.indexOf('app_runner')>-1)
+        );
         
         _setupPage(function() {
             _initSdk($.extend(_settings.initConfig, {
@@ -40,21 +51,28 @@
         return true;
     };
     
-    // Default options for plugin
-    $.facebook.settings = {
-        staticPageSize: false,
-        eventTarget: document,
-        userLogged: undefined,
-        locale: 'en_GB',
-        initQueue: [],
-        initConfig: {
-            status: true,
-            cookie: true,
-            xfbml: true
-        },
-        onLogout: function() { window.location.reload(); },
-        onLogin: function() { window.location.reload(); }
-    };
+    // Expose
+    $.extend($.facebook, {
+        // Execute code only once FB is ready, with the option to wait till auth
+        ensure: _ensureInit,
+        // Context check to execute code depending on whether site is in FB Canvas or not
+        context: _execContextSwitch,
+        // Default options for plugin
+        settings: {
+            staticPageSize: false,
+            eventTarget: document,
+            userLogged: undefined,
+            locale: 'en_GB',
+            initQueue: [],
+            initConfig: {
+                status: true,
+                cookie: true,
+                xfbml: true
+            },
+            onLogout: function() { window.location.reload(); },
+            onLogin: function() { window.location.reload(); }
+        }
+    });
     
     // Private methods
     function _setupPage(loadCallback) {
@@ -76,12 +94,12 @@
         if(!_settings.staticPageSize) {
             FB.Canvas.setAutoGrow();
         }
+
+        _isReady = true;
         
-        _isInitd = true;
-        
-        _initEvents();
-        _processInitQueue();
         _exposeYourself();
+        _processInitQueue();
+        _initEvents();
         
         _eventTarget.trigger('ready.facebook');
     }
@@ -119,7 +137,7 @@
     }
     
     function _ensureInit(callback, waitForAuth) {
-        if(!_isInitd || (waitForAuth && !_isAuthed)) {
+        if(!_isReady || (waitForAuth && !_isAuthed)) {
             setTimeout(function() {
                 _ensureInit(callback, waitForAuth);
             }, 100);
@@ -129,15 +147,10 @@
     }
     
     function _execContextSwitch(canvasCallback, normalCallback) {
-        if(_inCanvas && typeof canvasCallback === 'function') {
-            canvasCallback();
-        } else if(!_inCanvas && typeof normalCallback === 'function') {
-            normalCallback();
-        }
+        return _inCanvas ? canvasCallback() : normalCallback();
     }
     
-    function _ensureExternalLinks()
-    {
+    function _ensureExternalLinks() {
         if(_inCanvas) {
             // Only apply to external links
             $('a[href^="http"]').not('[href*="'+ window.location.host +'"], [target]').each(function() {
@@ -147,15 +160,10 @@
     }
     
     function _exposeYourself() {
-        // Expose to public 
+        // Exposing these can be useful
         $.extend($.facebook, {
-            // Exposing these can be useful
             inCanvas: _inCanvas,
-            isReady: _isInitd,
-            // Execute code only once FB is ready, with the option to wait till auth
-            ensure: _ensureInit,
-            // Context check to execute code depending on whether site is in FB Canvas or not
-            context: _execContextSwitch
+            isReady: _isReady,
         });
     }
 })(jQuery, window, document);
