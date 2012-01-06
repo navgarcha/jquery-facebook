@@ -1,6 +1,6 @@
 module('core');
 
-asyncTest('initQueue and events', 5, function () {
+asyncTest('initQueue and events', 5, function() {
     var appId = 168676476542854,
         eventTarget = $('body');
     
