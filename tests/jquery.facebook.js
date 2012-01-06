@@ -56,4 +56,5 @@ test('$.facebook.ensure check', function() {
 });
 
 test('external link modifications', function() {
-    equals($('a[target="_top"]').length, window.forceCanvas ? 2 : 0, 'correct target="_top" 
+    equals($('a[target="_top"]').length, window.forceCanvas ? 2 : 0, 'correct target="_top" assigned');
+});
