@@ -1,0 +1,18 @@
+#test-toggle-mode {
+    margin-top: 20px;
+}
+
+#test-links {
+    margin-top: 20px;
+    background-color: #EEE;
+    border: 1px solid #EDEDE;
+    padding: 15px;
+}
+#test-links > a {
+    display: block;
+    color: #666;
+    text-decoration: none;
+}
+#test-links > a[target="_top"] {
+    font-style: italic;
+}

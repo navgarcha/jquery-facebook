@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery Facebook Unit Tests</title>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+        
+        <!-- QUnit -->
+        <link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen" />
+        <script src="qunit/qunit.js"></script>
+    
+        <!-- Libraries -->
+        <script src="jquery.1.7.1.js"></script>
+        <script src="../jquery.facebook.js"></script>
+        
+        <!-- Tests -->
+        <script src="jquery.facebook.js"></script>
+        
+        <!-- Setup Code -->
+        <script>
+        window.forceCanvas = window.location.search.indexOf('force_canvas') > -1;
+        
+        $(document).ready(function() {
+            $('#test-toggle-mode')
+                .text(forceCanvas ? 'Normal Mode' : 'Canvas Mode')
+                .click(function() {
+                    window.location.search = !window.forceCanvas ? '?fb_sig_in_iframe=1&force_canvas' : '';
+                });
+        });
+        </script>
+    </head>
+    <body>
+        <h1 id="qunit-header">HeadJS UnitTests</h1>
+        <h2 id="qunit-banner"></h2>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        
+        <!-- Test Markup -->
+        <button id="test-toggle-mode" onclick="window.location."></button>
+        
+        <div id="test-links">
+            <a href="/">/</a>
+            <a href="/about.php">/about.php</a>
+            <a href="http://www.facebook.com">http://www.facebook.com</a>
+            <a href="http://www.twitter.com">http://www.twitter.com</a>
+            <a href="http://www.skype.com" target="_blank">http://www.skype.com (_blank)</a>
+            <a href="#">#</a>
+            <a href="#qunit-tests">#qunit-tests</a>
+        </div>
+    </body>
+</html>
