@@ -1,6 +1,6 @@
 module('core');
 
-asyncTest('initQueue and events', 5, function () {
+asyncTest('initQueue and events', 5, function() {
     var appId = 168676476542854,
         eventTarget = $('body');
     
@@ -8,7 +8,7 @@ asyncTest('initQueue and events', 5, function () {
         ok($.facebook.isReady && !!window.FB, 'fired event ready.facebook on custom eventTarget');  
     });
     
-     eventTarget.bind('clearqueue.facebook', function() {
+    eventTarget.bind('clearqueue.facebook', function() {
         ok(true, 'fired event clearqueue.facebook on custom eventTarget');  
         start();
     });
