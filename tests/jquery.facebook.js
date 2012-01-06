@@ -36,14 +36,16 @@ test('fb-root appended', function() {
 });
 
 test('check inCanvas', function() {
-    ok(!$.facebook.inCanvas, 'shouldn\'t be in iframe');
+    equals($.facebook.inCanvas, window.forceCanvas, 'checked against window.forceCanvas');
 });
 
 test('$.facebook.context switch check', function() {
+    expect(1);
+    
     $.facebook.context(function() {
-        ok(false, 'not in Canvas so shouldn\'t be called');
+        equals($.facebook.inCanvas, true, 'not in Canvas so shouldn\'t be called');
     }, function() {
-        ok(true, 'not in Canvas so should be called');
+        equals($.facebook.inCanvas, false, 'not in Canvas so should be called');
     });
 });
 
@@ -54,5 +56,5 @@ test('$.facebook.ensure check', function() {
 });
 
 test('external link modifications', function() {
-    equals($('a[target="_top"]').length, 2, 'target="_top" assigned to 2 links');
+    equals($('a[target="_top"]').length, window.forceCanvas ? 2 : 0, 'correct target="_top" assigned');
 });
